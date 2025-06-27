@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import {VoteValue} from "@/types";
 import { usePokerStore } from "@/store/usePokerStore";
+import Button from '@/components/ui/Button/Button';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -62,7 +63,7 @@ export default function HomePage() {
             value={username}
             onChange={e => setUsername(e.target.value)}
         />
-        <button onClick={joinRoom}>Join</button>
+        <Button onClick={joinRoom}>Join</Button>
 
         <div style={{ marginTop: 20 }}>
           {[1, 2, 3, 5, 8, 13, '?'].map(val => (
