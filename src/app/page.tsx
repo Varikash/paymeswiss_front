@@ -67,13 +67,13 @@ export default function HomePage() {
 
         <div style={{ marginTop: 20 }}>
           {[1, 2, 3, 5, 8, 13, '?'].map(val => (
-              <button key={val} onClick={() => vote(val as VoteValue)}>
+              <Button key={val} variant='outline' size='sm' onClick={() => vote(val as VoteValue)}>
                 {val}
-              </button>
+              </Button>
           ))}
         </div>
 
-        <button onClick={reset}>Reset</button>
+        <Button onClick={reset}>Reset</Button>
 
         <ul>
           {users.map(u => (
