@@ -1,4 +1,4 @@
-export type VoteValue = number | '?';
+export type VoteValue = 1 | 2 | 3 | 5 | 8 | 13 | '?' | '☕️';
 
 export type User = {
     id: string;

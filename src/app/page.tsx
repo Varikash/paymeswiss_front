@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import {VoteValue} from "@/types";
 import { usePokerStore } from "@/store/usePokerStore";
 import Button from '@/components/ui/Button/Button';
 import Input from '@/components/ui/Input/Input';
+import Card from '@/components/ui/Card/Card';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -17,6 +18,8 @@ export default function HomePage() {
   const setRevealed = usePokerStore(state => state.setRevealed);
   const resetStore = usePokerStore(state => state.reset);
   const roomId = 'test-room';
+
+  const [testRevealed, setTestRevealed] = useState(false);
 
   useEffect(() => {
     const socket = io('http://localhost:3000');
@@ -55,6 +58,8 @@ export default function HomePage() {
     socketRef.current?.emit('reset', { roomId });
   };
 
+  const cardValues: VoteValue[] = [1, 2, 3, 5, 8, 13, '?', '☕️'];
+
   return (
       <main style={{ padding: 20 }}>
         <h2>Planning Poker</h2>
@@ -66,11 +71,19 @@ export default function HomePage() {
         />
         <Button onClick={joinRoom}>Join</Button>
 
-        <div style={{ marginTop: 20 }}>
-          {[1, 2, 3, 5, 8, 13, '?'].map(val => (
-              <Button key={val} variant='outline' size='sm' onClick={() => vote(val as VoteValue)}>
-                {val}
-              </Button>
+         {/* Временная кнопка для тестирования */}
+         <Button onClick={() => setTestRevealed(!testRevealed)}>
+          {testRevealed ? 'Hide Cards' : 'Reveal Cards'}
+        </Button>
+
+        <div style={{ marginTop: 20, display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          {cardValues.map(val => (
+              <Card 
+                key={val} 
+                value={val} 
+                isRevealed={testRevealed}
+                onClick={() => vote(val)}
+              />
           ))}
         </div>
 
