@@ -1,14 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { User, VoteValue } from '../types';
+import {VoteValue} from "@/types";
+import { usePokerStore } from "@/store/usePokerStore";
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
-  const [username, setUsername] = useState('');
-  const [users, setUsers] = useState<User[]>([]);
-  const [revealed, setRevealed] = useState(false);
+  const username = usePokerStore(state => state.username);
+  const setUsername = usePokerStore(state => state.setUsername);
+  const users = usePokerStore(state => state.users);
+  const setUsers = usePokerStore(state => state.setUsers);
+  const revealed = usePokerStore(state => state.revealed);
+  const setRevealed = usePokerStore(state => state.setRevealed);
+  const resetStore = usePokerStore(state => state.reset);
   const roomId = 'test-room';
 
   useEffect(() => {
@@ -26,8 +31,7 @@ export default function HomePage() {
     });
 
     socket.on('vote_reset', () => {
-      setUsers((prev) => prev.map(u => ({ ...u, vote: undefined })));
-      setRevealed(false);
+      resetStore();
     });
 
     return () => {
@@ -37,6 +41,7 @@ export default function HomePage() {
 
   const joinRoom = () => {
     if (!username.trim()) return;
+    setUsername(username);
     socketRef.current?.emit('join_room', { roomId, username });
   };
 
