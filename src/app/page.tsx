@@ -5,6 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import {VoteValue} from "@/types";
 import { usePokerStore } from "@/store/usePokerStore";
 import Button from '@/components/ui/Button/Button';
+import Input from '@/components/ui/Input/Input';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -58,10 +59,10 @@ export default function HomePage() {
       <main style={{ padding: 20 }}>
         <h2>Planning Poker</h2>
 
-        <input
-            placeholder="Your name"
+        <Input
+            label="Your name"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={setUsername}
         />
         <Button onClick={joinRoom}>Join</Button>
 

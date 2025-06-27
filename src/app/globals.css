@@ -1,6 +1,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --input-error: #dc2626;
 
   /* Buttons style */
   --button-primary-bg: #9c88ff;
@@ -18,12 +19,20 @@
   --button-focus: rgba(59, 130, 246, 0.5);
   /* End */
 
+  --input-border: #9e9e9e;
+  --input-bg: #ffffff;
+  --input-text: #171717;
+  --input-label: #9e9e9e;
+  --input-focus: #9c88ff;
+  --input-label-bg: #ffffff;
+
 }
 
  @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --input-error: #fca5a5;
    
     --button-primary-bg: #487eb0;
     --button-primary-text: #ffffff;
@@ -38,6 +47,14 @@
     --button-outline-hover: #374151;
     
     --button-focus: rgba(59, 130, 246, 0.5);
+
+
+    --input-border: #4b5563;
+    --input-bg: #1f2937;
+    --input-text: #f5f5f5;
+    --input-label: #9ca3af;
+    --input-focus: #487eb0;
+    --input-label-bg: #1f2937;
 
   }
 } 
