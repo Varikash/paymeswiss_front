@@ -7,6 +7,7 @@ import { usePokerStore } from "@/store/usePokerStore";
 import Button from '@/components/ui/Button/Button';
 import Input from '@/components/ui/Input/Input';
 import Card from '@/components/ui/Card/Card';
+import Modal from '@/components/ui/Modal/Modal';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -20,6 +21,8 @@ export default function HomePage() {
   const roomId = 'test-room';
 
   const [testRevealed, setTestRevealed] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+
 
   useEffect(() => {
     const socket = io('http://localhost:3000');
@@ -61,6 +64,21 @@ export default function HomePage() {
   const cardValues: VoteValue[] = [1, 2, 3, 5, 8, 13, '?', '☕️'];
 
   return (
+    <>
+      {/* Тестовый модал */}
+      <Modal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)}
+      >
+        <div style={{ textAlign: 'center', color: 'white' }}>
+          <h2 style={{ marginBottom: '1rem' }}>Welcome to Planning Poker</h2>
+          <p style={{ marginBottom: '2rem' }}>This is a test modal with glass effect</p>
+          <Button onClick={() => setShowModal(false)}>
+            Close Modal
+          </Button>
+        </div>
+      </Modal>
+
       <main style={{ padding: 20 }}>
         <h2>Planning Poker</h2>
 
@@ -97,5 +115,6 @@ export default function HomePage() {
           ))}
         </ul>
       </main>
+    </>
   );
 }
