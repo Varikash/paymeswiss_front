@@ -24,7 +24,6 @@ export type Room = {
 
 export type SocketEvents = {
     'join_room': { roomId: string; username: string };
-    'leave_room': { roomId: string; userId: string };
     'vote': { roomId: string; value: VoteValue };
     'reset': { roomId: string };
     'start_timer': { roomId: string; duration: number };
@@ -32,7 +31,4 @@ export type SocketEvents = {
     'room_update': { room: Room };
     'vote_reveal': { room: Room };
     'vote_reset': { room: Room };
-    'timer_update': { room: Room };
-    'user_joined': { room: Room; user: User };
-    'user_left': { room: Room; userId: string };
 };

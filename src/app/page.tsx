@@ -1,190 +1,39 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
-import {VoteValue} from "@/types";
-import { usePokerStore } from "@/store/usePokerStore";
-import Button from '@/components/ui/Button/Button';
-import Input from '@/components/ui/Input/Input';
-import Card from '@/components/ui/Card/Card';
-import Modal from '@/components/ui/Modal/Modal';
-import Table from '@/components/ui/Table/Table';
-import Player from '@/components/ui/Player/Player';
+import { useState, useEffect } from 'react';
+import { usePokerStore } from '../store/usePokerStore';
+import  Button  from '../components/ui/Button/Button';
+import { LobbyModal } from '../components/lobby/LobbyModal';
 
-export default function HomePage() {
-  const socketRef = useRef<Socket | null>(null);
-  const username = usePokerStore(state => state.username);
-  const setUsername = usePokerStore(state => state.setUsername);
-  const users = usePokerStore(state => state.users);
-  const setUsers = usePokerStore(state => state.setUsers);
-  const revealed = usePokerStore(state => state.revealed);
-  const setRevealed = usePokerStore(state => state.setRevealed);
-  const resetStore = usePokerStore(state => state.reset);
-  const roomId = 'test-room';
-
-  const [testRevealed, setTestRevealed] = useState(false);
-  const [showModal, setShowModal] = useState(true);
-
+export default function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isConnected } = usePokerStore();
 
   useEffect(() => {
-    const socket = io('http://localhost:3000');
-    socketRef.current = socket;
-
-    socket.on('room_update', ({ users, revealed }) => {
-      setUsers(users);
-      setRevealed(revealed);
-    });
-
-    socket.on('vote_reveal', ({ users }) => {
-      setUsers(users);
-      setRevealed(true);
-    });
-
-    socket.on('vote_reset', () => {
-      resetStore();
-    });
-
-    return () => {
-      socket.disconnect();
-    };
+    setIsModalOpen(true);
   }, []);
 
-  const joinRoom = () => {
-    if (!username.trim()) return;
-    setUsername(username);
-    socketRef.current?.emit('join_room', { roomId, username });
-  };
-
-  const vote = (value: VoteValue) => {
-    socketRef.current?.emit('vote', { roomId, value });
-  };
-
-  const reset = () => {
-    socketRef.current?.emit('reset', { roomId });
-  };
-
-  const cardValues: VoteValue[] = [1, 2, 3, 5, 8, 13, '?', '☕️'];
-
   return (
-    <>
-      {/* Тестовый модал */}
-      <Modal 
-        isOpen={showModal} 
-        onClose={() => setShowModal(false)}
-      >
-        <div style={{ textAlign: 'center', color: 'white' }}>
-          <h2 style={{ marginBottom: '1rem' }}>Welcome to Planning Poker</h2>
-          <p style={{ marginBottom: '2rem' }}>This is a test modal with glass effect</p>
-          <Button onClick={() => setShowModal(false)}>
-            Close Modal
-          </Button>
-        </div>
-      </Modal>
-
-      <main style={{ padding: 20 }}>
-        <h2>Planning Poker</h2>
-
-
-        {/* Тестовый Table с кнопкой по центру */}
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '40px 0' }}>
-          <Table button={<Button onClick={() => alert('Show cards!')}>Show cards</Button>} />
-        </div>
-
-
-        <Input
-            label="Your name"
-            value={username}
-            onChange={setUsername}
-        />
-        <Button onClick={joinRoom}>Join</Button>
-
-         {/* Временная кнопка для тестирования */}
-         <Button onClick={() => setTestRevealed(!testRevealed)}>
-          {testRevealed ? 'Hide Cards' : 'Reveal Cards'}
-        </Button>
-
-        <div style={{ marginTop: 20, display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          {cardValues.map(val => (
-              <Card 
-                key={val} 
-                value={val} 
-                isRevealed={testRevealed}
-                onClick={() => vote(val)}
-              />
-          ))}
-        </div>
-
-        <Button onClick={reset}>Reset</Button>
-
-        <ul>
-          {users.map(u => (
-              <li key={u.id}>
-                {u.name} — {revealed ? u.vote ?? '—' : 'hidden'}
-              </li>
-          ))}
-        </ul>
-
-
-        <h2>PlayerCard тестовые состояния</h2>
-        <div style={{ display: 'flex', gap: 24 }}>
-          {/* Не выбрал карту */}
-          <Player
-            name="Alice"
-            vote={undefined}
-            isRevealed={false}
-            isCurrentUser={false}
-           
-          />
-          {/* Выбрал карту, но не открыто */}
-          <Player
-            name="Bob"
-            vote={5}
-            isRevealed={false}
-            isCurrentUser={false}
-          />
-          {/* Выбрал карту, открыто */}
-          <Player
-            name="Charlie"
-            vote={8}
-            isRevealed={true}
-            isCurrentUser={false}
-          />
-          {/* Текущий пользователь, не выбрал карту */}
-          <Player
-            name="You"
-            vote={undefined}
-            isRevealed={false}
-            isCurrentUser={true}
-          />
-          {/* Текущий пользователь, выбрал карту, открыто */}
-          <Player
-            name="You"
-            vote={3}
-            isRevealed={true}
-            isCurrentUser={true}
-          />
-      </div>
-
-      <h2>Динамический тест переворота карты</h2>
-      <button
-        onClick={() => setRevealed(!revealed)}
-        style={{ marginBottom: 24 }}
-      >
-        {revealed ? 'Скрыть карту' : 'Показать карту'}
-      </button>
-      <div style={{ display: 'flex', gap: 24 }}>
-        <Player
-          name="Dynamic User"
-          vote={5}
-          isRevealed={revealed}
-          isCurrentUser={true}
+    <div>
+      <div>
+        <h1>Planning Poker</h1>
         
-        />
+        <Button 
+          onClick={() => setIsModalOpen(true)}
+          disabled={!isConnected}
+        >
+          Join Planning Poker
+        </Button>
+        
+        {!isConnected && (
+          <p>Connecting to server...</p>
+        )}
       </div>
 
-
-
-      </main>
-    </>
+      <LobbyModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
+    </div>
   );
 }
