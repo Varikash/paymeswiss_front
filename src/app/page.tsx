@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input/Input';
 import Card from '@/components/ui/Card/Card';
 import Modal from '@/components/ui/Modal/Modal';
 import Table from '@/components/ui/Table/Table';
+import Player from '@/components/ui/Player/Player';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -122,6 +123,67 @@ export default function HomePage() {
               </li>
           ))}
         </ul>
+
+
+        <h2>PlayerCard тестовые состояния</h2>
+        <div style={{ display: 'flex', gap: 24 }}>
+          {/* Не выбрал карту */}
+          <Player
+            name="Alice"
+            vote={undefined}
+            isRevealed={false}
+            isCurrentUser={false}
+           
+          />
+          {/* Выбрал карту, но не открыто */}
+          <Player
+            name="Bob"
+            vote={5}
+            isRevealed={false}
+            isCurrentUser={false}
+          />
+          {/* Выбрал карту, открыто */}
+          <Player
+            name="Charlie"
+            vote={8}
+            isRevealed={true}
+            isCurrentUser={false}
+          />
+          {/* Текущий пользователь, не выбрал карту */}
+          <Player
+            name="You"
+            vote={undefined}
+            isRevealed={false}
+            isCurrentUser={true}
+          />
+          {/* Текущий пользователь, выбрал карту, открыто */}
+          <Player
+            name="You"
+            vote={3}
+            isRevealed={true}
+            isCurrentUser={true}
+          />
+      </div>
+
+      <h2>Динамический тест переворота карты</h2>
+      <button
+        onClick={() => setRevealed(!revealed)}
+        style={{ marginBottom: 24 }}
+      >
+        {revealed ? 'Скрыть карту' : 'Показать карту'}
+      </button>
+      <div style={{ display: 'flex', gap: 24 }}>
+        <Player
+          name="Dynamic User"
+          vote={5}
+          isRevealed={revealed}
+          isCurrentUser={true}
+        
+        />
+      </div>
+
+
+
       </main>
     </>
   );

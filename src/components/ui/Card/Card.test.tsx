@@ -66,4 +66,25 @@ describe('Card Component', () => {
     render(<Card value="☕️" isRevealed={true} />);
     expect(screen.getByText('☕️')).toBeInTheDocument();
   });
+
+  test('applies lg size styles', () => {
+    const { container } = render(<Card value={5} size="lg" isRevealed={true} />);
+    const card = container.querySelector('.card');
+    expect(card).toHaveClass('card');
+    expect(card).toHaveClass('lg');
+  });
+
+  test('applies sm size styles', () => {
+    const { container } = render(<Card value={3} size="sm" isRevealed={true} />);
+    const card = container.querySelector('.card');
+    expect(card).toHaveClass('card');
+    expect(card).toHaveClass('sm');
+  });
+
+  test('renders default to lg size if size is not specified', () => {
+    const { container } = render(<Card value={1} isRevealed={true} />);
+    const card = container.querySelector('.card');
+    expect(card).toHaveClass('card');
+    expect(card).toHaveClass('lg');
+  });
 });

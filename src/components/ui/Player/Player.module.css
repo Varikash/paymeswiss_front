@@ -1,0 +1,62 @@
+.playerCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 12px;
+  }
+  
+  .cardWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .statusDot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+  }
+  
+  .statusDot.voted {
+    background: #22c55e;
+  }
+  
+  .playerName {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--foreground);
+    text-align: center;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .current .playerName {
+    color: var(--button-primary-bg);
+  }
+  
+  .you {
+    font-size: 0.85em;
+    color: var(--button-primary-bg);
+    margin-left: 4px;
+  }
+
+
+  .emptyCard {
+    width: 48px;
+    height: 72px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: transparent;
+    opacity: 0.5;
+  }

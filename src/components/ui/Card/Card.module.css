@@ -6,6 +6,18 @@
     user-select: none;
 }
 
+.card.lg {
+    width: 80px;
+    height: 120px;
+    font-size: 1.5rem;
+}
+
+.card.sm {
+    width: 48px;
+    height: 72px;
+    font-size: 1rem;
+}
+
 .card.disabled {
     opacity: 0.5;
     cursor: not-allowed;

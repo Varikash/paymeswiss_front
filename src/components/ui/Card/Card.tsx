@@ -9,6 +9,7 @@ interface CardProps {
     isRevealed?: boolean;
     onClick?:() => void;
     disabled?: boolean;
+    size?: 'lg' | 'sm';
 }
 
 export default function Card({
@@ -17,6 +18,7 @@ export default function Card({
     isRevealed = false,
     onClick,
     disabled = false,
+    size = 'lg',
 }: CardProps) {
     const handleClick = () => {
         if (!disabled && onClick) {
@@ -25,7 +27,7 @@ export default function Card({
     };
 
     return (
-        <div className={`${styles.card} ${isRevealed ? styles.revealed : ''} ${disabled ? styles.disabled : ''}`} onClick={handleClick}>
+        <div className={`${styles.card} ${styles[size]} ${isRevealed ? styles.revealed : ''} ${disabled ? styles.disabled : ''}`} onClick={handleClick}>
             <div className={`${styles.cardInner} ${isSelected ? styles.selected : ''}`}>
                 <div className={styles.cardFront}>
                     <div className={styles.cardContent}>
