@@ -1,0 +1,15 @@
+.table {
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+    background: #218c74;
+    border-radius: 32px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 2px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}

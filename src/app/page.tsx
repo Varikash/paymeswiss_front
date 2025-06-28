@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button/Button';
 import Input from '@/components/ui/Input/Input';
 import Card from '@/components/ui/Card/Card';
 import Modal from '@/components/ui/Modal/Modal';
+import Table from '@/components/ui/Table/Table';
 
 export default function HomePage() {
   const socketRef = useRef<Socket | null>(null);
@@ -81,6 +82,13 @@ export default function HomePage() {
 
       <main style={{ padding: 20 }}>
         <h2>Planning Poker</h2>
+
+
+        {/* Тестовый Table с кнопкой по центру */}
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '40px 0' }}>
+          <Table button={<Button onClick={() => alert('Show cards!')}>Show cards</Button>} />
+        </div>
+
 
         <Input
             label="Your name"
