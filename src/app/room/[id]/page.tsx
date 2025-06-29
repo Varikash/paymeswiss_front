@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './pages.module.css';
 import { useParams } from 'next/navigation';
-import { usePokerStore, useUsers, useRevealed, useCurrentUser, useIsHost, useIsTimerActive, useRemainingTime, useTimerProgress } from '../../../store/usePokerStore';
+import { usePokerStore, useUsers, useRevealed, useCurrentUser, useIsHost, useIsTimerActive, useRemainingTime, useTimerProgress, useRoom } from '../../../store/usePokerStore';
 import Player from '@/components/ui/Player/Player';
 import Card from '@/components/ui/Card/Card';
 import Button from '@/components/ui/Button/Button';
@@ -23,12 +23,13 @@ export default function RoomPage() {
   const revealed = useRevealed();
   const currentUser = useCurrentUser();
   const isHost = useIsHost();
+  const room = useRoom();
 
   const isTimerActive = useIsTimerActive();
   const remainingTime = useRemainingTime();
   const timerProgress = useTimerProgress();
 
-  const { vote, resetVotes, startTimer, isConnected } = usePokerStore();
+  const { vote, resetVotes, startTimer, isConnected, resetStore } = usePokerStore();
 
   const handleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -47,6 +48,14 @@ export default function RoomPage() {
   const handleReset = () => {
     resetVotes(roomId);
   };
+
+  React.useEffect(() => {
+    // Проверяем при загрузке страницы
+    if (!currentUser) {
+      resetStore();
+      window.location.href = '/';
+    }
+  }, [currentUser, resetStore]);
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
