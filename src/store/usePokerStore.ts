@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
 import { User, Room, VoteValue} from '../types';
 
 type PokerState = {
@@ -73,13 +74,13 @@ export const usePokerStore = create<PokerState>((set, get) => ({
 }));
 
 // Selectors for convinience
-export const useCurrentUser = () => usePokerStore(state => state.currentUser);
-export const useRoom = () => usePokerStore(state => state.room);
-export const useUsers = () => usePokerStore(state => state.room?.users || []);
-export const useRevealed = () => usePokerStore(state => state.room?.revealed || false);
-export const useIsConnected = () => usePokerStore(state => state.isConnected);
-export const useIsHost = () => usePokerStore(state => {
+export const useCurrentUser = () => usePokerStore(useShallow((state) => state.currentUser));
+export const useRoom = () => usePokerStore(useShallow((state) => state.room));
+export const useUsers = () => usePokerStore(useShallow((state) => state.room?.users ?? []));
+export const useRevealed = () => usePokerStore((state) => state.room?.revealed ?? false);
+export const useIsConnected = () => usePokerStore((state) => state.isConnected);
+export const useIsHost = () => usePokerStore((state) => {
     const currentUser = state.currentUser;
     const room = state.room;
-    return currentUser && room && room.hostId === currentUser.id;
+    return Boolean(currentUser && room && room.hostId === currentUser.id);
 });

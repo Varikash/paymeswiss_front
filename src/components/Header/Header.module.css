@@ -1,0 +1,36 @@
+.header {
+    width: 100vw;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.roomId {
+    margin-right: auto;
+}
+
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.connected {
+    background-color: #10b981; /* зелёный */
+}
+
+.disconnected {
+    background-color: #ef4444; /* красный */
+}
