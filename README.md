@@ -2,7 +2,7 @@
 
 A React/Next.js Planning Poker application with WebSocket integration.
 
-## �� Technologies
+## Technologies
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **State Management**: Zustand
@@ -11,7 +11,7 @@ A React/Next.js Planning Poker application with WebSocket integration.
 - **WebSocket**: Socket.io Client
 - **Theme**: Light/Dark mode with Context API
 
-## ✨ Features
+## Features
 
 ### ✅ Implemented
 
@@ -40,23 +40,6 @@ A React/Next.js Planning Poker application with WebSocket integration.
    - All UI components covered
    - Component-level testing
 
-## 🏗️ Architecture
-
-src/
-├── app/ # Next.js App Router
-│ ├── page.tsx # Main page with Lobby
-│ └── room/[id]/ # Room page
-├── components/
-│ ├── ui/ # Reusable UI components
-│ ├── Header/ # Room info header
-│ ├── lobby/ # Entry modal
-│ ├── layout/ # Participants sidebar
-│ └── socketProvider/ # WebSocket provider
-├── store/ # Zustand store
-├── hooks/ # Custom hooks
-├── context/ # React Context (theme)
-├── types/ # TypeScript types
-└── utils/ # Utilities (UUID generation)
 
 
 ## 🚀 Getting Started
@@ -84,7 +67,7 @@ npm run test:watch    # Watch mode
 npm run test:coverage # Coverage report
 ```
 
-## �� Configuration
+##  Configuration
 
 ### Backend
 The app expects a NestJS backend on `http://localhost:3000` with WebSocket support.
@@ -111,7 +94,7 @@ npm run test:coverage # Coverage report
 - **Animations** - smooth transitions and effects
 - **Status indicators** - connection, loading, errors
 
-## �� WebSocket Events
+##  WebSocket Events
 
 ### Outgoing events
 - `create_room` - create room
