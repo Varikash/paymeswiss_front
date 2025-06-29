@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { User, Room, VoteValue} from '../types';
+import { generateRoomId } from '../utils/uuid';
 
 type PokerState = {
     //current user
@@ -16,12 +17,16 @@ type PokerState = {
     isConnected: boolean;
 
     //Actions
-
     setCurrentUser: (user: { id: string; name: string }) => void;
     setRoom: (room: Room) => void;
     setConnectionStatus: (connected: boolean) => void;
 
+    // Room management
+    createRoom: (username: string) => string;
     joinRoom: (roomId: string, username: string) => void;
+    joinRoomByUUID: (roomId: string, username: string) => void;
+    
+    // Game actions
     vote: (roomId: string, value: VoteValue) => void;
     resetVotes: (roomId: string) => void;
     startTimer: (roomId: string, duration: number) => void;
@@ -40,30 +45,44 @@ export const usePokerStore = create<PokerState>((set, get) => ({
     setRoom: (room) => set({ room }),
     setConnectionStatus: (connected) => set({ isConnected: connected }),
     
-    // Socket actions (заглушки - будут реализованы с socket)
-    joinRoom: (roomId: string, username: string) => {
+    // Create new room with UUID
+    createRoom: (username: string) => {
+        const roomId = generateRoomId();
+        console.log('createRoom:', roomId, username);
         // TODO: Реализовать с socket
+        return roomId;
+    },
+    
+    // Join existing room
+    joinRoom: (roomId: string, username: string) => {
         console.log('joinRoom:', roomId, username);
+        // TODO: Реализовать с socket
+    },
+    
+    // Join room by UUID (alias for joinRoom)
+    joinRoomByUUID: (roomId: string, username: string) => {
+        console.log('joinRoomByUUID:', roomId, username);
+        // TODO: Реализовать с socket
     },
     
     vote: (roomId: string, value: VoteValue) => {
-        // TODO: Реализовать с socket
         console.log('vote:', roomId, value);
+        // TODO: Реализовать с socket
     },
     
     resetVotes: (roomId: string) => {
-        // TODO: Реализовать с socket
         console.log('resetVotes:', roomId);
+        // TODO: Реализовать с socket
     },
     
     startTimer: (roomId: string, duration: number) => {
-        // TODO: Реализовать с socket
         console.log('startTimer:', roomId, duration);
+        // TODO: Реализовать с socket
     },
     
     stopTimer: (roomId: string) => {
-        // TODO: Реализовать с socket
         console.log('stopTimer:', roomId);
+        // TODO: Реализовать с socket
     },
     
     resetStore: () => set({ 

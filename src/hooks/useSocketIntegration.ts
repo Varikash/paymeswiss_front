@@ -5,6 +5,7 @@ import { useSocket } from './useSocket';
 import { usePokerStore } from '../store/usePokerStore';
 import { Room, VoteValue } from '../types';
 import { Socket } from 'socket.io-client';
+import { generateRoomId } from '../utils/uuid';
 
 export const useSocketIntegration = () => {
     const socket = useSocket() as Socket | null;
@@ -12,7 +13,9 @@ export const useSocketIntegration = () => {
         setRoom, 
         setCurrentUser, 
         setConnectionStatus,
+        createRoom: storeCreateRoom,
         joinRoom: storeJoinRoom,
+        joinRoomByUUID: storeJoinRoomByUUID,
         vote: storeVote,
         resetVotes: storeResetVotes,
         startTimer: storeStartTimer,
@@ -64,6 +67,16 @@ export const useSocketIntegration = () => {
             setRoom(data.room);
         });
 
+        socket.on('room_created', (data: { room: Room }) => {
+            console.log('Room created received', data);
+            setRoom(data.room);
+        });
+
+        socket.on('room_join_success', (data: { room: Room }) => {
+            console.log('Room join success received', data);
+            setRoom(data.room);
+        });
+
         return () => {
             socket.off('connect');
             socket.off('disconnect');
@@ -76,8 +89,24 @@ export const useSocketIntegration = () => {
     }, [socket, setRoom, setConnectionStatus]);
 
     // Реализуем socket actions
+    const createRoom = (username: string) => {
+        console.log('Socket createRoom called', username);
+        if (!socket) return '';
+        const roomId = generateRoomId();
+        socket.emit('create_room', { roomId, username });
+        setCurrentUser({ id: socket.id!, name: username });
+        return roomId;
+    };
+
     const joinRoom = (roomId: string, username: string) => {
         console.log('Socket joinRoom called', roomId, username);
+        if (!socket) return;
+        socket.emit('join_room', { roomId, username });
+        setCurrentUser({ id: socket.id!, name: username });
+    };
+
+    const joinRoomByUUID = (roomId: string, username: string) => {
+        console.log('Socket joinRoomByUUID called', roomId, username);
         if (!socket) return;
         socket.emit('join_room', { roomId, username });
         setCurrentUser({ id: socket.id!, name: username });
@@ -111,7 +140,9 @@ export const useSocketIntegration = () => {
     useEffect(() => {
         console.log('Updating store actions');
         usePokerStore.setState({
+            createRoom,
             joinRoom,
+            joinRoomByUUID,
             vote,
             resetVotes,
             startTimer,
@@ -121,7 +152,9 @@ export const useSocketIntegration = () => {
 
     return {
         socket,
+        createRoom,
         joinRoom,
+        joinRoomByUUID,
         vote,
         resetVotes,
         startTimer,

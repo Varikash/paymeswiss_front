@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePokerStore } from '../../store/usePokerStore';
+import { generateRoomId } from '../../utils/uuid';
 import Modal from '../ui/Modal/Modal';
 import Input from '../ui/Input/Input';
 import Button from '../ui/Button/Button';
@@ -15,32 +16,43 @@ interface LobbyModalProps {
 
 export function LobbyModal({ isOpen, onClose }: LobbyModalProps) {
   const [username, setUsername] = useState('');
+  const [roomId, setRoomId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
   const router = useRouter();
-  const { joinRoom, isConnected } = usePokerStore();
+  const { joinRoomByUUID, isConnected } = usePokerStore();
 
-
-  const handleJoinRoom = () => {
-    console.log('handleJoinRoom called');
+  const handleJoinRoom = async () => {
     if (!username.trim()) return;
     
     if (!isConnected) {
-        console.log('Waiting for socket connection...');
-        return;
+      console.log('Waiting for socket connection...');
+      return;
     }
     
-    const roomId = 'main-room';
-    joinRoom(roomId, username);
-    router.push(`/room/${roomId}`);
-    onClose();
-};
+    setIsLoading(true);
+    try {
+      // Если не ввели Room ID - генерируем UUID
+      const finalRoomId = roomId.trim() || generateRoomId();
+      
+      joinRoomByUUID(finalRoomId, username);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      router.push(`/room/${finalRoomId}`);
+      onClose();
+    } catch (error) {
+      console.error('Failed to join room:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const isUsernameValid = username.trim().length >=3;
+  const isUsernameValid = username.trim().length >= 3;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className={styles.container}>
         <h2 className={styles.title}>
-          Join Planning Poker
+          Planning Poker
         </h2>
         
         <div className={styles.form}>
@@ -50,11 +62,17 @@ export function LobbyModal({ isOpen, onClose }: LobbyModalProps) {
             onChange={setUsername}
           />
           
+          <Input
+            label="Room ID (optional)"
+            value={roomId}
+            onChange={setRoomId}
+          />
+          
           <Button 
             onClick={handleJoinRoom}
-            disabled={!isUsernameValid || !isConnected}
+            disabled={!isUsernameValid || !isConnected || isLoading}
           >
-            Join Room
+            {isLoading ? 'Loading...' : 'Join Room'}
           </Button>
         </div>
         

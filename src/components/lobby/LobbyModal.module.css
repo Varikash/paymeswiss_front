@@ -16,7 +16,8 @@
 
 .form {
     display: flex;
-    column-gap: 16px;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .error {
@@ -24,3 +25,8 @@
     font-size: 14px;
     margin-top: 16px;
   }
+
+.modeToggle {
+    display: flex;
+    gap: 16px;
+}
