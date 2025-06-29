@@ -55,7 +55,7 @@
   .emptyCard {
     width: 48px;
     height: 72px;
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed var(--player-card-border);;
     border-radius: 12px;
     background: transparent;
     opacity: 0.5;
