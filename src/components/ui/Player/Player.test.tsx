@@ -21,17 +21,14 @@ describe('Player Component', () => {
 
   test('renders Card when vote is present', () => {
     const { container } = render(<Player name="Dave" vote={5} isRevealed={false} />);
-    // Card должен быть, а пустой рамки нет
     expect(container.querySelector('.emptyCard')).not.toBeInTheDocument();
     expect(container.querySelector('.card')).toBeInTheDocument();
   });
 
   test('passes correct props to Card when revealed', () => {
     const { container } = render(<Player name="Eve" vote={8} isRevealed={true} />);
-    // Card должен быть, а пустой рамки нет
     expect(container.querySelector('.emptyCard')).not.toBeInTheDocument();
     expect(container.querySelector('.card')).toBeInTheDocument();
-    // Проверяем, что значение карты отображается
     expect(screen.getByText('8')).toBeInTheDocument();
   });
 
