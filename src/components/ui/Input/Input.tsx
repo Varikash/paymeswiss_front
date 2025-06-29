@@ -5,12 +5,14 @@ interface InputProps {
     value: string;
     onChange: (value: string) => void;
     label: string;
+    "data-testid"?: string;
 }
 
 export default function Input({
     value,
     onChange,
     label,
+    "data-testid": dataTestId,
 }: InputProps) {
 
     const isValid = value.length >= 3 && value.length <= 15;
@@ -32,6 +34,7 @@ export default function Input({
                 minLength={3}
                 maxLength={15}
                 required 
+                data-testid={dataTestId}
             />
             <label htmlFor='username-input' className={styles.userLabel}>{label}</label>
             {showError && (

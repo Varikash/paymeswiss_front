@@ -60,12 +60,14 @@ export function LobbyModal({ isOpen, onClose }: LobbyModalProps) {
             label="Your Name"
             value={username}
             onChange={setUsername}
+            data-testid="username-input"
           />
           
           <Input
             label="Room ID (optional)"
             value={roomId}
             onChange={setRoomId}
+            data-testid="room-id-input"
           />
           
           <Button 
