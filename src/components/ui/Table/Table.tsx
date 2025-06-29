@@ -34,7 +34,7 @@ export default function Table({
           <div className={styles.timer}>
             {formatTime(remainingTime)}
           </div>
-          <div className={styles.progressBar}>
+          <div className={styles.progressBar} role="progressbar" >
             <div 
               className={styles.progressFill} 
               style={{ width: `${100 - timerProgress}%` }}

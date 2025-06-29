@@ -1,31 +1,124 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import Table from './Table';
-import Button from '../Button/Button';
 
-describe('Table Component', () => {
-  test('renders the button inside the table', () => {
-    render(
-      <Table button={<Button onClick={() => {}}>Show cards</Button>} />
-    );
-    expect(screen.getByRole('button', { name: 'Show cards' })).toBeInTheDocument();
+describe('Table', () => {
+  const mockOnStartTimer = jest.fn();
+
+  beforeEach(() => {
+    mockOnStartTimer.mockClear();
   });
 
-  test('calls onClick when button is clicked', () => {
-    const handleClick = jest.fn();
+  it('renders button and children when timer is not active', () => {
     render(
-      <Table button={<Button onClick={handleClick}>Show cards</Button>} />
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={false}
+        remainingTime={0}
+        timerProgress={0}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      >
+        <p>Table content</p>
+      </Table>
     );
-    fireEvent.click(screen.getByRole('button', { name: 'Show cards' }));
-    expect(handleClick).toHaveBeenCalledTimes(1);
+
+    expect(screen.getByText('Start Timer')).toBeInTheDocument();
+    expect(screen.getByText('Table content')).toBeInTheDocument();
   });
 
-  test('applies correct styles to the table', () => {
+  it('renders timer when timer is active', () => {
     render(
-      <Table button={<Button onClick={() => {}}>Show cards</Button>} />
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={45}
+        timerProgress={0}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      />
     );
-    const table = screen.getByRole('button', { name: 'Show cards' }).closest('div');
-    expect(table).toHaveClass('table');
+
+    expect(screen.getByText('0:45')).toBeInTheDocument();
+    expect(screen.queryByText('Start Timer')).not.toBeInTheDocument();
+  });
+
+  it('formats time correctly', () => {
+    render(
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={65} // 1 minute 5 seconds
+        timerProgress={0}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      />
+    );
+
+    expect(screen.getByText('1:05')).toBeInTheDocument();
+  });
+
+  it('formats time with leading zero for seconds', () => {
+    render(
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={61} // 1 minute 1 second
+        timerProgress={0}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      />
+    );
+
+    expect(screen.getByText('1:01')).toBeInTheDocument();
+  });
+
+  it('shows progress bar when timer is active', () => {
+    render(
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={30}
+        timerProgress={33.33}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      />
+    );
+
+    const progressBar = screen.getByRole('progressbar') || document.querySelector('.progressBar');
+    expect(progressBar).toBeInTheDocument();
+  });
+
+  it('does not show button or children when timer is active', () => {
+    render(
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={45}
+        timerProgress={0}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      >
+        <p>Table content</p>
+      </Table>
+    );
+
+    expect(screen.queryByText('Start Timer')).not.toBeInTheDocument();
+    expect(screen.queryByText('Table content')).not.toBeInTheDocument();
+  });
+
+  it('handles zero remaining time', () => {
+    render(
+      <Table
+        button={<button>Start Timer</button>}
+        isTimerActive={true}
+        remainingTime={0}
+        timerProgress={100}
+        onStartTimer={mockOnStartTimer}
+        isHost={true}
+      />
+    );
+
+    expect(screen.getByText('0:00')).toBeInTheDocument();
   });
 });
