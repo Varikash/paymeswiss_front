@@ -28,6 +28,12 @@ export const useSocketIntegration = () => {
             setConnectionStatus(true);
         });
 
+        socket.on('join_error', (data: { message: string }) => {
+            console.error('Join error:', data.message);
+            // Можно показать уведомление пользователю
+            alert(data.message);
+          });
+
         socket.on('disconnect', () => {
             console.log('Socket disconnected');
             setConnectionStatus(false);

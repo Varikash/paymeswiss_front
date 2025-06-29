@@ -18,21 +18,11 @@ export function LobbyModal({ isOpen, onClose }: LobbyModalProps) {
   const router = useRouter();
   const { joinRoom, isConnected } = usePokerStore();
 
-  // const handleJoinRoom = () => {
-  //   console.log('handleJoinRoom called');
-  //   if (!username.trim()) return;
-    
-  //   const roomId = 'main-room';
-  //   joinRoom(roomId, username);
-  //   router.push(`/room/${roomId}`);
-  //   onClose();
-  // };
 
   const handleJoinRoom = () => {
     console.log('handleJoinRoom called');
     if (!username.trim()) return;
     
-    // Ждём пока socket подключится
     if (!isConnected) {
         console.log('Waiting for socket connection...');
         return;
