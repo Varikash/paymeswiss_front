@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 30px;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -33,4 +33,10 @@
 
 .disconnected {
     background-color: #ef4444; /* красный */
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }

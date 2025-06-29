@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
+import ThemeToggle from '../ui/ThemeToggle/ThemeToggle';
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -19,6 +20,7 @@ export default function Header({
     return (
         <header className={styles.header}>
             <p className={styles.roomId}>{roomId}</p>
+            <ThemeToggle />
             <div className={styles.userInfo}>
             <div className={`${styles.statusDot} ${isConnected ? styles.connected : styles.disconnected}`} data-testid="status-dot"></div>
                 <p>{userName}</p>
