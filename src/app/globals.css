@@ -1,5 +1,5 @@
 :root {
-  --background: #ffffff;
+  --background: #f7f1e3;
   --foreground: #171717;
   --input-error: #dc2626;
 
@@ -37,7 +37,7 @@
 
 }
 
- @media (prefers-color-scheme: dark) {
+ /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -72,7 +72,7 @@
     --card-back-border: #ea580c;
 
   }
-} 
+}  */
 
 
 

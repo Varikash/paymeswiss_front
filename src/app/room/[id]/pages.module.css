@@ -1,4 +1,45 @@
 .container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
     display: flex;
     flex-direction: column;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.tableContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.topZone, .bottomZone {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.middleSection {
+    display: flex;
+    gap: 10px;
+}
+
+.leftZone, .rightZone {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cardSection {
+    display: flex;
+    gap: 10px;
 }
