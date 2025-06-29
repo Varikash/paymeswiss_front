@@ -9,17 +9,22 @@ import Card from '@/components/ui/Card/Card';
 import Button from '@/components/ui/Button/Button';
 import Header from '@/components/Header/Header';
 import Table from '@/components/ui/Table/Table';
+import Sidebar from '@/components/layout/SideBar/SideBar';
 import { VoteValue } from '@/types';
 
 export default function RoomPage() {
   const params = useParams();
   const roomId = params.id as string;
 
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
   const users = useUsers();
   const revealed = useRevealed();
   const currentUser = useCurrentUser();
   const isHost = useIsHost();
   const { vote, resetVotes, isConnected } = usePokerStore();
+
+  const handleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const playerZones = {
     top: users.slice(0, 4),
@@ -37,6 +42,20 @@ export default function RoomPage() {
     resetVotes(roomId);
   };
 
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isSidebarOpen) {
+        setIsSidebarOpen(false);
+      }
+    };
+  
+    document.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isSidebarOpen]);
+
   const voteValues: VoteValue[] = [1, 2, 3, 5, 8, 13, '?', '☕️'];
 
   return (
@@ -47,7 +66,13 @@ export default function RoomPage() {
         userName={currentUser?.name || 'Unknown'}
         isConnected={isConnected}
       >
-        <Button variant='outline' size='sm'>Cписок участников ({users.length})</Button>
+        <Button 
+          variant='outline' 
+          size='sm'
+          onClick={handleSidebar}
+        >
+            List of participants ({users.length})
+        </Button>
       </Header>
 
       <div className={styles.main}>
@@ -134,6 +159,12 @@ export default function RoomPage() {
             </Button>
           </div>
         )}
+
+        {isSidebarOpen && <Sidebar
+          isOpen={isSidebarOpen}
+          onClose={handleSidebar}
+          users={users}
+        />}
 
         
       </div>
