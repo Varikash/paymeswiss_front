@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Planning Poker Frontend (Test task for Payme Swiss)
 
-## Getting Started
+A React/Next.js Planning Poker application with WebSocket integration.
 
-First, run the development server:
+## �� Technologies
 
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **State Management**: Zustand
+- **Styling**: CSS Modules
+- **Testing**: Jest, React Testing Library
+- **WebSocket**: Socket.io Client
+- **Theme**: Light/Dark mode with Context API
+
+## ✨ Features
+
+### ✅ Implemented
+
+1. **Lobby System**
+   - Username input (3-15 characters validation)
+   - Create new room with UUID
+   - Join existing room by UUID
+   - Server connection indicator
+
+2. **Game Room**
+   - Display participants (up to 12 players)
+   - Vote with cards (1, 2, 3, 5, 8, 13, ?, ☕️)
+   - Reveal/hide votes
+   - Timer with auto-reveal (45 seconds)
+   - Reset votes (host only)
+
+3. **UI Components**
+   - Desktop-focused design
+   - Dark/light theme
+   - Participants sidebar
+   - Modal windows
+   - Connection status indicator
+
+4. **Testing**
+   - 70 unit tests, 100% pass rate
+   - All UI components covered
+   - Component-level testing
+
+## 🏗️ Architecture
+
+src/
+├── app/ # Next.js App Router
+│ ├── page.tsx # Main page with Lobby
+│ └── room/[id]/ # Room page
+├── components/
+│ ├── ui/ # Reusable UI components
+│ ├── Header/ # Room info header
+│ ├── lobby/ # Entry modal
+│ ├── layout/ # Participants sidebar
+│ └── socketProvider/ # WebSocket provider
+├── store/ # Zustand store
+├── hooks/ # Custom hooks
+├── context/ # React Context (theme)
+├── types/ # TypeScript types
+└── utils/ # Utilities (UUID generation)
+
+
+## 🚀 Getting Started
+
+### Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Testing
+```bash
+npm test              # Run unit tests
+npm run test:watch    # Watch mode
+npm run test:coverage # Coverage report
+```
 
-## Learn More
+## �� Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
+The app expects a NestJS backend on `http://localhost:3000` with WebSocket support.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **70 unit tests** covering all main components
+- **100% pass rate** for all tests
+- **Coverage**: Component rendering, props, state changes, event handlers
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Testing commands
+```bash
+npm test              # Unit tests only
+npm run test:watch    # Interactive mode
+npm run test:coverage # Coverage report
+```
+
+##  UI/UX Features
+
+- **Desktop-focused design** - optimized for desktop screens
+- **Dark/light theme** - toggle in header
+- **Animations** - smooth transitions and effects
+- **Status indicators** - connection, loading, errors
+
+## �� WebSocket Events
+
+### Outgoing events
+- `create_room` - create room
+- `join_room` - join room
+- `vote` - cast vote
+- `reset_votes` - reset votes
+- `start_timer` - start timer
+- `stop_timer` - stop timer
+
+### Incoming events
+- `room_update` - room state update
+- `connect/disconnect` - connection status
+- `error` - errors
+
+## Requirements Compliance
+
+✅ **2.1 Lobby View** - Room UUIDs, name input, no authentication  
+✅ **2.2 Game Room** - Display participants and votes  
+✅ **2.3 Voting** - Cards with values, reveal/hide  
+✅ **2.4 Real-time** - WebSocket integration  
+✅ **2.5 UI/UX** - Modern design, desktop version only  
+✅ **2.6 Testing** - Unit test coverage  
