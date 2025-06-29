@@ -84,3 +84,28 @@ export const useIsHost = () => usePokerStore((state) => {
     const room = state.room;
     return Boolean(currentUser && room && room.hostId === currentUser.id);
 });
+export const useTimer = () => usePokerStore((state) => state.room?.timer);
+export const useIsTimerActive = () => usePokerStore((state) => state.room?.timer?.isActive ?? false);
+export const useRemainingTime = () => usePokerStore((state) => {
+  const timer = state.room?.timer;
+  if (!timer?.isActive || !timer.startTime) return 0;
+  
+  const now = new Date().getTime();
+  const startTime = new Date(timer.startTime).getTime();
+  const elapsed = Math.floor((now - startTime) / 1000);
+  const remaining = timer.duration - elapsed;
+  
+  return Math.max(0, remaining);
+});
+
+export const useTimerProgress = () => usePokerStore((state) => {
+    const timer = state.room?.timer;
+    if (!timer?.isActive || !timer.startTime) return 0;
+    
+    const now = new Date().getTime();
+    const startTime = new Date(timer.startTime).getTime();
+    const elapsed = Math.floor((now - startTime) / 1000);
+    const progress = (elapsed / timer.duration) * 100;
+    
+    return Math.min(100, Math.max(0, progress));
+  });

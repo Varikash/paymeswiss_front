@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './pages.module.css';
 import { useParams } from 'next/navigation';
-import { usePokerStore, useUsers, useRevealed, useCurrentUser, useIsHost } from '../../../store/usePokerStore';
+import { usePokerStore, useUsers, useRevealed, useCurrentUser, useIsHost, useIsTimerActive, useRemainingTime, useTimerProgress } from '../../../store/usePokerStore';
 import Player from '@/components/ui/Player/Player';
 import Card from '@/components/ui/Card/Card';
 import Button from '@/components/ui/Button/Button';
@@ -17,12 +17,18 @@ export default function RoomPage() {
   const roomId = params.id as string;
 
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [timerTick, setTimerTick] = React.useState(0);
 
   const users = useUsers();
   const revealed = useRevealed();
   const currentUser = useCurrentUser();
   const isHost = useIsHost();
-  const { vote, resetVotes, isConnected } = usePokerStore();
+
+  const isTimerActive = useIsTimerActive();
+  const remainingTime = useRemainingTime();
+  const timerProgress = useTimerProgress();
+
+  const { vote, resetVotes, startTimer, isConnected } = usePokerStore();
 
   const handleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -55,6 +61,17 @@ export default function RoomPage() {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isSidebarOpen]);
+
+
+  React.useEffect(() => {
+    if (!isTimerActive) return;
+  
+    const interval = setInterval(() => {
+      setTimerTick(prev => prev + 1);
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [isTimerActive]);
 
   const voteValues: VoteValue[] = [1, 2, 3, 5, 8, 13, '?', '☕️'];
 
@@ -104,8 +121,18 @@ export default function RoomPage() {
                 ))}
             </div>
 
-            <Table button={<Button>Show Cards</Button>}>
-            </Table>
+            <Table 
+              button={
+                <Button onClick={() => startTimer(roomId, 45)} disabled={!isHost}>
+                  Start Timer (45s)
+                </Button>
+              }
+              isTimerActive={isTimerActive}
+              remainingTime={remainingTime}
+              timerProgress={timerProgress}
+              onStartTimer={() => startTimer(roomId, 45)}
+              isHost={isHost}
+            />
 
             <div className={styles.rightZone}>
               {playerZones.right.map((user) => (

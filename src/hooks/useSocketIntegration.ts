@@ -23,33 +23,38 @@ export const useSocketIntegration = () => {
         console.log('useSocketIntegration: socket changed', socket?.id);
         if (!socket) return;
 
-        // Подключение
         socket.on('connect', () => {
             console.log('Socket connected');
             setConnectionStatus(true);
         });
 
-        // Отключение
         socket.on('disconnect', () => {
             console.log('Socket disconnected');
             setConnectionStatus(false);
         });
 
-        // Обновление комнаты
         socket.on('room_update', (data: { room: Room }) => {
             console.log('Room update received', data);
             setRoom(data.room);
         });
 
-        // Показ голосов
         socket.on('vote_reveal', (data: { room: Room }) => {
             console.log('Vote reveal received', data);
             setRoom(data.room);
         });
 
-        // Сброс голосов
         socket.on('vote_reset', (data: { room: Room }) => {
             console.log('Vote reset received', data);
+            setRoom(data.room);
+        });
+
+        socket.on('timer_start', (data: { room: Room }) => {
+            console.log('Timer start received', data);
+            setRoom(data.room);
+        });
+    
+        socket.on('timer_end', (data: { room: Room }) => {
+            console.log('Timer end received', data);
             setRoom(data.room);
         });
 
@@ -59,6 +64,8 @@ export const useSocketIntegration = () => {
             socket.off('room_update');
             socket.off('vote_reveal');
             socket.off('vote_reset');
+            socket.off('timer_start');
+            socket.off('timer_end');
         };
     }, [socket, setRoom, setConnectionStatus]);
 
