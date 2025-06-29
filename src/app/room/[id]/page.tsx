@@ -50,7 +50,6 @@ export default function RoomPage() {
   };
 
   React.useEffect(() => {
-    // Проверяем при загрузке страницы
     if (!currentUser) {
       resetStore();
       window.location.href = '/';

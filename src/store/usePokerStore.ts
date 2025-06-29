@@ -45,44 +45,36 @@ export const usePokerStore = create<PokerState>((set, get) => ({
     setRoom: (room) => set({ room }),
     setConnectionStatus: (connected) => set({ isConnected: connected }),
     
-    // Create new room with UUID
     createRoom: (username: string) => {
         const roomId = generateRoomId();
         console.log('createRoom:', roomId, username);
-        // TODO: Реализовать с socket
         return roomId;
     },
     
     // Join existing room
     joinRoom: (roomId: string, username: string) => {
         console.log('joinRoom:', roomId, username);
-        // TODO: Реализовать с socket
     },
     
     // Join room by UUID (alias for joinRoom)
     joinRoomByUUID: (roomId: string, username: string) => {
         console.log('joinRoomByUUID:', roomId, username);
-        // TODO: Реализовать с socket
     },
     
     vote: (roomId: string, value: VoteValue) => {
         console.log('vote:', roomId, value);
-        // TODO: Реализовать с socket
     },
     
     resetVotes: (roomId: string) => {
         console.log('resetVotes:', roomId);
-        // TODO: Реализовать с socket
     },
     
     startTimer: (roomId: string, duration: number) => {
         console.log('startTimer:', roomId, duration);
-        // TODO: Реализовать с socket
     },
     
     stopTimer: (roomId: string) => {
         console.log('stopTimer:', roomId);
-        // TODO: Реализовать с socket
     },
     
     resetStore: () => set({ 

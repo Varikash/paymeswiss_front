@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './Table.module.css';
-import Button from '@/components/ui/Button/Button';
 
 interface TableProps {
   button?: React.ReactNode;

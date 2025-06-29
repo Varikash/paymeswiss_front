@@ -33,7 +33,6 @@ export const useSocketIntegration = () => {
 
         socket.on('join_error', (data: { message: string }) => {
             console.error('Join error:', data.message);
-            // Можно показать уведомление пользователю
             alert(data.message);
           });
 
@@ -88,7 +87,6 @@ export const useSocketIntegration = () => {
         };
     }, [socket, setRoom, setConnectionStatus]);
 
-    // Реализуем socket actions
     const createRoom = (username: string) => {
         console.log('Socket createRoom called', username);
         if (!socket) return '';
@@ -136,7 +134,6 @@ export const useSocketIntegration = () => {
         socket.emit('stop_timer', { roomId });
     };
 
-    // Обновляем store actions
     useEffect(() => {
         console.log('Updating store actions');
         usePokerStore.setState({

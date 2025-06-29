@@ -28,11 +28,11 @@
 }
 
 .connected {
-    background-color: #10b981; /* зелёный */
+    background-color: #10b981;
 }
 
 .disconnected {
-    background-color: #ef4444; /* красный */
+    background-color: #ef4444;
 }
 
 .controls {

@@ -32,7 +32,6 @@ export function LobbyModal({ isOpen, onClose }: LobbyModalProps) {
     
     setIsLoading(true);
     try {
-      // Если не ввели Room ID - генерируем UUID
       const finalRoomId = roomId.trim() || generateRoomId();
       
       joinRoomByUUID(finalRoomId, username);

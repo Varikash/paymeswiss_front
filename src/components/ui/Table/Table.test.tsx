@@ -48,7 +48,7 @@ describe('Table', () => {
       <Table
         button={<button>Start Timer</button>}
         isTimerActive={true}
-        remainingTime={65} // 1 minute 5 seconds
+        remainingTime={65}
         timerProgress={0}
         onStartTimer={mockOnStartTimer}
         isHost={true}
@@ -63,7 +63,7 @@ describe('Table', () => {
       <Table
         button={<button>Start Timer</button>}
         isTimerActive={true}
-        remainingTime={61} // 1 minute 1 second
+        remainingTime={61}
         timerProgress={0}
         onStartTimer={mockOnStartTimer}
         isHost={true}
